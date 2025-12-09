@@ -1,0 +1,15 @@
+{
+  "lsp": {
+    "clangd": {
+      "fetch": {
+        "pre_release": true
+      }
+    }
+  },
+  "languages": {
+    "C++": {
+      "format_on_save": "on",
+      "tab_size": 4
+    }
+  }
+}

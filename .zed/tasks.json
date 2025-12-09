@@ -1,0 +1,46 @@
+[
+  {
+    "label": "C++: Build Current File",
+    "command": "g++",
+    "args": [
+      "$ZED_FILE",
+      "-o",
+      "$ZED_WORKTREE_ROOT/output/$ZED_STEM",
+      "-Wall",
+      "-Wextra",
+      "-std=c++17"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "C++: Run Current Executable",
+    "command": "$ZED_WORKTREE_ROOT/output/$ZED_STEM",
+    "args": [],
+    "cwd": "$ZED_WORKTREE_ROOT/output"
+  },
+  {
+    "label": "C++: Build & Run Current File (One Shot)",
+    "command": "mkdir -p \"$ZED_WORKTREE_ROOT/output\" && g++ \"$ZED_FILE\" -o \"$ZED_WORKTREE_ROOT/output/$ZED_STEM\" -Wall -Wextra -std=c++17 && \"$ZED_WORKTREE_ROOT/output/$ZED_STEM\"",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "C++: Build & Run Current Test (Dynamic)",
+    "command": "mkdir -p \"$ZED_WORKTREE_ROOT/output\" && if echo \"$ZED_FILE\" | grep -q '\\.test\\.cpp$'; then g++ \"$ZED_FILE\" -o \"$ZED_WORKTREE_ROOT/output/$ZED_STEM\" -Wall -Wextra -std=c++17 -lgtest_main -lgtest -lpthread && \"$ZED_WORKTREE_ROOT/output/$ZED_STEM\"; else echo 'Error: This task is for .test.cpp files only'; fi",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "C++: Build All Tests",
+    "command": "mkdir -p \"$ZED_WORKTREE_ROOT/output\" && echo 'Building all test files...' && for file in \"$ZED_WORKTREE_ROOT\"/tests/*.test.cpp; do if [ -f \"$file\" ]; then echo \"Building $(basename \"$file\")...\"; g++ \"$file\" -o \"$ZED_WORKTREE_ROOT/output/$(basename \"$file\" .cpp)\" -Wall -Wextra -std=c++17 -lgtest_main -lgtest -lpthread && echo \"✓ $(basename \"$file\") built successfully\" || echo \"✗ Failed to build $(basename \"$file\")\"; fi; done && echo \"Done!\"",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "C++: Run All Tests",
+    "command": "echo 'Running all tests...' && for test in \"$ZED_WORKTREE_ROOT\"/output/*.test; do if [ -f \"$test\" ]; then echo \"\"; echo \"======================================\"; echo \"Running $(basename \"$test\")\"; echo \"======================================\"; \"$test\" || true; fi; done && echo \"\"; echo \"All tests completed!\"",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "C++: Build & Run All Tests",
+    "command": "mkdir -p \"$ZED_WORKTREE_ROOT/output\" && echo 'Building all test files...' && for file in \"$ZED_WORKTREE_ROOT\"/tests/*.test.cpp; do if [ -f \"$file\" ]; then echo \"Building $(basename \"$file\")...\"; g++ \"$file\" -o \"$ZED_WORKTREE_ROOT/output/$(basename \"$file\" .cpp)\" -Wall -Wextra -std=c++17 -lgtest_main -lgtest -lpthread && echo \"✓ $(basename \"$file\") built successfully\" || echo \"✗ Failed to build $(basename \"$file\")\"; fi; done && echo \"\" && echo 'Running all tests...' && for test in \"$ZED_WORKTREE_ROOT\"/output/*.test; do if [ -f \"$test\" ]; then echo \"\"; echo \"======================================\"; echo \"Running $(basename \"$test\")\"; echo \"======================================\"; \"$test\" || true; fi; done && echo \"\"; echo \"All tests completed!\"",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  }
+]
