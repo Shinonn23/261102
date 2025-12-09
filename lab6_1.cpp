@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-    int x = -1;
+    int x = -99;
 
     int is_old = 0;
     int is_even = 0;
